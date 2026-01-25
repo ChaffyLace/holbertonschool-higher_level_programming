@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"This module contains a function for printing a name in a formatted way."
+"""This module provides a function that prints a formatted name."""
+
 
 def say_my_name(first_name, last_name=""):
-    """Show 'My name is <first_name> <last_name>' on the screen."""
+    """Print 'My name is <first_name> <last_name>'."""
     if not isinstance(first_name, str):
         raise TypeError("first_name must be a string")
     if not isinstance(last_name, str):
