@@ -1,4 +1,5 @@
 #!/usr/bin/python3
 
 class Rectangle:
-    def 
+    """define a rectangle"""
+    pass
