@@ -1,0 +1,41 @@
+================================
+TESTS FOR BASE GEOMETRY
+================================
+
+On importe la classe et on crée une instance :
+>>> BaseGeometry = __import__('7-base_geometry').BaseGeometry
+>>> bg = BaseGeometry()
+
+1. Test avec un entier valide (ne doit rien afficher) :
+>>> bg.integer_validator("my_int", 12)
+>>> bg.integer_validator("width", 89)
+
+2. Test avec une string (doit échouer avec TypeError) :
+>>> bg.integer_validator("name", "John")
+Traceback (most recent call last):
+...
+TypeError: name must be an integer
+
+3. Test avec un float (doit échouer avec TypeError) :
+>>> bg.integer_validator("age", 12.5)
+Traceback (most recent call last):
+...
+TypeError: age must be an integer
+
+4. Test avec un booléen (doit échouer car bool est une sous-classe de int mais on veut int strict) :
+>>> bg.integer_validator("is_active", True)
+Traceback (most recent call last):
+...
+TypeError: is_active must be an integer
+
+5. Test avec 0 (doit échouer avec ValueError) :
+>>> bg.integer_validator("zero", 0)
+Traceback (most recent call last):
+...
+ValueError: zero must be greater than 0
+
+6. Test avec un négatif (doit échouer avec ValueError) :
+>>> bg.integer_validator("negative", -4)
+Traceback (most recent call last):
+...
+ValueError: negative must be greater than 0
