@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
-Defines a function to look up object attributes.
+This module defines a function to look up object attributes.
 """
+
 
 def lookup(obj):
     """
