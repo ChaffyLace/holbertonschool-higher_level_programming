@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Module task_04_flyingfish."""
 
 
 class Fish:

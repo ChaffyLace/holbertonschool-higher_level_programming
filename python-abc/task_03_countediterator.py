@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Module task_03_countediterator."""
 
 
 class CountedIterator:

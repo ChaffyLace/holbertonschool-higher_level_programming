@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-""" Abstract class Animal """
 
 
 from abc import ABC, abstractmethod
