@@ -1,82 +1,56 @@
 #!/usr/bin/python3
 """
-Simple API using Python's built-in http.server module
+Module to fetch and process posts from JSONPlaceholder API
 """
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
+import requests
+import csv
 
 
-class SimpleAPIHandler(BaseHTTPRequestHandler):
+API_URL = "https://jsonplaceholder.typicode.com/posts"
+
+
+def fetch_and_print_posts():
     """
-    Custom request handler for our simple API
+    Fetch all posts from JSONPlaceholder and print their titles.
     """
+    response = requests.get(API_URL)
 
-    def do_GET(self):
-        """
-        Handle GET requests and route to proper endpoints
-        """
+    # Print status code
+    print(f"Status Code: {response.status_code}")
 
-        # Root endpoint
-        if self.path == "/":
-            self.send_response(200)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"Hello, this is a simple API!")
+    # If request is successful
+    if response.status_code == 200:
+        posts = response.json()
 
-        # /status endpoint
-        elif self.path == "/status":
-            self.send_response(200)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"OK")
+        # Iterate and print titles
+        for post in posts:
+            print(post.get("title"))
 
-        # /data endpoint
-        elif self.path == "/data":
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
 
-            data = {
-                "name": "John",
-                "age": 30,
-                "city": "New York"
+def fetch_and_save_posts():
+    """
+    Fetch all posts and save selected fields to posts.csv.
+    """
+    response = requests.get(API_URL)
+
+    if response.status_code == 200:
+        posts = response.json()
+
+        # Structure data into list of dictionaries
+        structured_posts = [
+            {
+                "id": post.get("id"),
+                "title": post.get("title"),
+                "body": post.get("body")
             }
+            for post in posts
+        ]
 
-            json_data = json.dumps(data)
-            self.wfile.write(json_data.encode("utf-8"))
+        # Write to CSV
+        with open("posts.csv", mode="w", newline="", encoding="utf-8") as file:
+            fieldnames = ["id", "title", "body"]
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
 
-        # /info endpoint
-        elif self.path == "/info":
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.end_headers()
-
-            info = {
-                "version": "1.0",
-                "description": "A simple API built with http.server"
-            }
-
-            json_info = json.dumps(info)
-            self.wfile.write(json_info.encode("utf-8"))
-
-        # Undefined endpoint → 404
-        else:
-            self.send_response(404)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"Endpoint not found")
-
-
-def run(server_class=HTTPServer, handler_class=SimpleAPIHandler):
-    """
-    Initialize and start the HTTP server
-    """
-    server_address = ("", 8000)
-    httpd = server_class(server_address, handler_class)
-    print("Starting server on port 8000...")
-    httpd.serve_forever()
-
-
-if __name__ == "__main__":
-    run()
+            writer.writeheader()
+            writer.writerows(structured_posts)
