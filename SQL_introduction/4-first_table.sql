@@ -1,6 +1,6 @@
 -- Creates
 CREATE TABLE IF NOT EXISTS 4-first_table.sql(
 	id INT,
-	name VARCHAR(256),
-)
+	name VARCHAR(256)
+);
 
