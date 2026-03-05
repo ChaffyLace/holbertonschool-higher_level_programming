@@ -1,6 +1,5 @@
--- Creates
-CREATE TABLE IF NOT EXISTS 4-first_table.sql(
-	id INT,
-	name VARCHAR(256)
+-- Creates a table called first_table
+CREATE TABLE IF NOT EXISTS first_table (
+    id INT,
+    name VARCHAR(256)
 );
-
